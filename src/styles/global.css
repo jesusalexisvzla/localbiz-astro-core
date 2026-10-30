@@ -103,3 +103,20 @@ img {
         transition-duration: 0.01ms !important;
     }
 }
+
+.skip-link {
+    position: fixed;
+    top: var(--space-4);
+    left: var(--space-4);
+    z-index: 1000;
+    padding: var(--space-3) var(--space-4);
+    background-color: var(--color-background);
+    color: var(--color-text);
+    border: 2px solid var(--focus-color);
+    border-radius: var(--radius-md);
+    transform: translateY(-200%);
+}
+
+.skip-link:focus {
+    transform: translateY(0);
+}

@@ -15,6 +15,7 @@ export interface SiteConfig {
     name: string;
     description: string;
     url: string;
+    indexable: boolean;
     language: string;
     logo?: string;
     contact: BusinessContact;

@@ -1,3 +1,5 @@
+import type { ImageMetadata } from 'astro';
+// import heroTestImage from '@assets/images/hero-test.png';
 
 export interface HomeContent {
     hero: {
@@ -8,7 +10,7 @@ export interface HomeContent {
             href: string;
         };
         image?: {
-            src: string;
+            src: ImageMetadata;
             alt: string;
         };
     };
@@ -22,6 +24,10 @@ export const homeContent: HomeContent = {
         primaryAction: {
             label: "Get in touch",
             href: "/#contact"
-        }
+        },
+        // image: {
+        //     src: heroTestImage,
+        //     alt: 'Temporary image for testing Astro image optimization'
+        // }
     }
 };

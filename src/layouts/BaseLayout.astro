@@ -1,4 +1,6 @@
 ---
+import SEO from '@components/SEO.astro';
+
 import { siteConfig } from '@config/site';
 import '@styles/tokens.css';
 import '@styles/global.css';
@@ -6,11 +8,15 @@ import '@styles/global.css';
 interface Props {
     title?: string;
     description?: string;
+    noindex?: boolean;
 }
+
+const pathname = Astro.url.pathname;
 
 const {
     title = siteConfig.name,
-    description = siteConfig.description
+    description = siteConfig.description,
+    noindex = false
 } = Astro.props;
 
 const pageTitle = title === siteConfig.name
@@ -26,10 +32,27 @@ const pageTitle = title === siteConfig.name
         <meta name="generator" content={Astro.generator} />
 
         <title>{pageTitle}</title>
-        <meta name="description" content={description} />
+        <SEO
+            title={pageTitle}
+            description={description}
+            pathname={pathname}
+            noindex={noindex}
+        />
+        {
+            siteConfig.indexable && Astro.site && (
+                <link
+                    rel="sitemap"
+                    type="application/xml"
+                    href={new URL('sitemap-index.xml', Astro.site).href}
+                />
+            )
+        }
     </head>
 
     <body>
+        <a class="skip-link" href="#main-content">
+            Skip to main content
+        </a>
         <slot />
     </body>
 </html>
