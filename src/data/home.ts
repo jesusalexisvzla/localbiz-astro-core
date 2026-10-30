@@ -7,7 +7,10 @@ export interface HomeContent {
             label: string;
             href: string;
         };
-        image?: string;
+        image?: {
+            src: string;
+            alt: string;
+        };
     };
 }
 
@@ -15,10 +18,10 @@ export const homeContent: HomeContent = {
     hero: {
         title: "Your business deserves a better website.",
         description:
-        "A modern, fast, and responsive website designed to connect your business with more customers.",
+            "A modern, fast, and responsive website designed to connect your business with more customers.",
         primaryAction: {
             label: "Get in touch",
-            href: "/#contact",
-        },
-    },
+            href: "/#contact"
+        }
+    }
 };

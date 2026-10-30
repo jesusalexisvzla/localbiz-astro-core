@@ -1,0 +1,225 @@
+---
+import Container from '@components/common/Container.astro';
+
+import { siteConfig } from '@config/site';
+import { mainNavigation } from '@config/navigation';
+
+const currentYear = new Date().getFullYear();
+
+const { contact, socials } = siteConfig;
+
+const hasContact = Boolean(
+    contact.email ||
+    contact.phone ||
+    contact.whatsapp ||
+    contact.address ||
+    contact.mapsUrl
+);
+
+const whatsappNumber = contact.whatsapp?.replace(/\D/g, '');
+---
+
+<footer class="site-footer">
+    <Container>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <a href="/" class="brand-name">
+                    {siteConfig.name}
+                </a>
+
+                <p>{siteConfig.description}</p>
+            </div>
+
+            {
+                mainNavigation.length > 0 && (
+                    <nav class="footer-column" aria-label="Footer navigation">
+                        <h2>Quick links</h2>
+
+                        <ul>
+                            {mainNavigation.map((link) => (
+                                <li>
+                                    <a
+                                        href={link.href}
+                                        target={link.external ? '_blank' : undefined}
+                                        rel={link.external ? 'noopener noreferrer' : undefined}
+                                    >
+                                        {link.label}
+                                    </a>
+                                </li>
+                            ))}
+                        </ul>
+                    </nav>
+                )
+            }
+
+            {
+                hasContact && (
+                    <div class="footer-column">
+                        <h2>Contact</h2>
+
+                        <ul>
+                            {contact.email && (
+                                <li>
+                                    <a href={`mailto:${contact.email}`}>
+                                        {contact.email}
+                                    </a>
+                                </li>
+                            )}
+
+                            {contact.phone && (
+                                <li>
+                                    <a href={`tel:${contact.phone.replace(/[^\d+]/g, '')}`}>
+                                        {contact.phone}
+                                    </a>
+                                </li>
+                            )}
+
+                            {whatsappNumber && (
+                                <li>
+                                    <a
+                                        href={`https://wa.me/${whatsappNumber}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        WhatsApp
+                                    </a>
+                                </li>
+                            )}
+
+                            {contact.address && (
+                                <li>
+                                    {contact.mapsUrl ? (
+                                        <a
+                                            href={contact.mapsUrl}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            {contact.address}
+                                        </a>
+                                    ) : (
+                                        <span>{contact.address}</span>
+                                    )}
+                                </li>
+                            )}
+
+                            {contact.mapsUrl && !contact.address && (
+                                <li>
+                                    <a
+                                        href={contact.mapsUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        View location
+                                    </a>
+                                </li>
+                            )}
+                        </ul>
+                    </div>
+                )
+            }
+
+            {
+                socials.length > 0 && (
+                    <nav class="footer-column" aria-label="Social media">
+                        <h2>Follow us</h2>
+
+                        <ul>
+                            {socials.map((social) => (
+                                <li>
+                                    <a
+                                        href={social.url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        {social.label}
+                                    </a>
+                                </li>
+                            ))}
+                        </ul>
+                    </nav>
+                )
+            }
+        </div>
+
+        <div class="footer-bottom">
+            <p>
+                © {currentYear} {siteConfig.name}. All rights reserved.
+            </p>
+        </div>
+    </Container>
+</footer>
+
+<style>
+    .site-footer {
+        padding-block: var(--space-16) var(--space-6);
+        background-color: var(--color-surface);
+        border-top: 1px solid var(--color-border);
+    }
+
+    .footer-content {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+        gap: var(--space-8);
+        padding-bottom: var(--space-12);
+    }
+
+    .footer-brand p {
+        max-width: 32ch;
+        margin-top: var(--space-3);
+        color: var(--color-text-muted);
+    }
+
+    .brand-name {
+        font-size: var(--font-size-lg);
+        font-weight: var(--font-weight-bold);
+        text-decoration: none;
+    }
+
+    .footer-column h2 {
+        margin-bottom: var(--space-4);
+        font-size: var(--font-size-base);
+        font-weight: var(--font-weight-semibold);
+    }
+
+    .footer-column ul {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-3);
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .footer-column a {
+        color: var(--color-text-muted);
+        text-decoration: none;
+        overflow-wrap: anywhere;
+    }
+
+    .footer-column a:hover {
+        color: var(--color-primary);
+        text-decoration: underline;
+    }
+
+    .footer-bottom {
+        padding-top: var(--space-6);
+        border-top: 1px solid var(--color-border);
+    }
+
+    .footer-bottom p {
+        margin: 0;
+        color: var(--color-text-muted);
+        font-size: var(--font-size-sm);
+        text-align: center;
+    }
+
+    @media (max-width: 767px) {
+        .site-footer {
+            padding-top: var(--space-12);
+        }
+
+        .footer-content {
+            gap: var(--space-6);
+        }
+    }
+</style>

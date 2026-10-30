@@ -1,0 +1,145 @@
+---
+import Container from '@components/common/Container.astro';
+
+import { siteConfig } from '@config/site';
+import { mainNavigation } from '@config/navigation';
+---
+
+<header class="site-header">
+    <Container>
+        <div class="header-content">
+            <a href="/" class="brand" aria-label={`${siteConfig.name} - Home`}>
+                <span>{siteConfig.name}</span>
+            </a>
+
+            <nav class="desktop-nav" aria-label="Main navigation">
+                {
+                    mainNavigation.map((link) => (
+                        <a
+                            href={link.href}
+                            target={link.external ? '_blank' : undefined}
+                            rel={link.external ? 'noopener noreferrer' : undefined}
+                        >
+                            {link.label}
+                        </a>
+                    ))
+                }
+            </nav>
+
+            <details class="mobile-nav">
+                <summary aria-label="Toggle navigation menu">
+                    <span class="menu-icon" aria-hidden="true"></span>
+                    <span>Menu</span>
+                </summary>
+
+                <nav aria-label="Mobile navigation">
+                    {
+                        mainNavigation.map((link) => (
+                            <a
+                                href={link.href}
+                                target={link.external ? '_blank' : undefined}
+                                rel={link.external ? 'noopener noreferrer' : undefined}
+                            >
+                                {link.label}
+                            </a>
+                        ))
+                    }
+                </nav>
+            </details>
+        </div>
+    </Container>
+</header>
+
+<style>
+    .site-header {
+        position: relative;
+        z-index: 10;
+        background-color: var(--color-background);
+        border-bottom: 1px solid var(--color-border);
+    }
+
+    .header-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--space-6);
+        min-height: 72px;
+    }
+
+    .brand {
+        color: var(--color-text);
+        font-size: var(--font-size-lg);
+        font-weight: var(--font-weight-bold);
+        text-decoration: none;
+    }
+
+    .desktop-nav {
+        display: flex;
+        align-items: center;
+        gap: var(--space-8);
+    }
+
+    .desktop-nav a,
+    .mobile-nav a {
+        color: var(--color-text);
+        font-weight: var(--font-weight-medium);
+        text-decoration: none;
+    }
+
+    .desktop-nav a:hover,
+    .mobile-nav a:hover {
+        color: var(--color-primary);
+    }
+
+    .mobile-nav {
+        display: none;
+        position: relative;
+    }
+
+    .mobile-nav summary {
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+        padding: var(--space-2);
+        cursor: pointer;
+        font-weight: var(--font-weight-medium);
+        list-style: none;
+    }
+
+    .mobile-nav summary::-webkit-details-marker {
+        display: none;
+    }
+
+    .menu-icon {
+        display: inline-block;
+        width: 18px;
+        height: 12px;
+        border-top: 2px solid currentColor;
+        border-bottom: 2px solid currentColor;
+    }
+
+    .mobile-nav nav {
+        position: absolute;
+        top: calc(100% + var(--space-3));
+        right: 0;
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-4);
+        width: min(260px, calc(100vw - 40px));
+        padding: var(--space-6);
+        background-color: var(--color-background);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-md);
+        box-shadow: 0 8px 24px rgb(0 0 0 / 0.08);
+    }
+
+    @media (max-width: 767px) {
+        .desktop-nav {
+            display: none;
+        }
+
+        .mobile-nav {
+            display: block;
+        }
+    }
+</style>

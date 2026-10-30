@@ -1,0 +1,113 @@
+---
+import Button from '@components/common/Button.astro';
+import Container from '@components/common/Container.astro';
+import Section from '@components/common/Section.astro';
+
+interface Props {
+    title: string;
+    description: string;
+    primaryAction: {
+        label: string;
+        href: string;
+    };
+    image?: {
+        src: string;
+        alt: string;
+    };
+}
+
+const {
+    title,
+    description,
+    primaryAction,
+    image
+} = Astro.props;
+---
+
+<Section class="hero">
+    <Container>
+        <div class:list={['hero-content', { 'has-image': Boolean(image) }]}>
+            <div class="hero-text">
+                <h1>{title}</h1>
+
+                <p>{description}</p>
+
+                <div class="hero-actions">
+                    <Button href={primaryAction.href}>
+                        {primaryAction.label}
+                    </Button>
+                </div>
+            </div>
+
+            {
+                image && (
+                    <div class="hero-media">
+                        <img
+                            src={image.src}
+                            alt={image.alt}
+                            width="600"
+                            height="450"
+                            fetchpriority="high"
+                        />
+                    </div>
+                )
+            }
+        </div>
+    </Container>
+</Section>
+
+<style>
+    .hero-content {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        align-items: center;
+        gap: var(--space-12);
+    }
+
+    .hero-content.has-image {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .hero-text {
+        max-width: 640px;
+    }
+
+    .hero-text h1 {
+        font-size: clamp(2rem, 5vw, 3.75rem);
+        line-height: var(--line-height-heading);
+        margin-bottom: var(--space-6);
+    }
+
+    .hero-text p {
+        max-width: 55ch;
+        color: var(--color-text-muted);
+        font-size: var(--font-size-lg);
+        margin-bottom: var(--space-8);
+    }
+
+    .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: var(--space-4);
+    }
+
+    .hero-media img {
+        display: block;
+        width: 100%;
+        height: auto;
+        aspect-ratio: 4 / 3;
+        object-fit: cover;
+        border-radius: var(--radius-lg);
+    }
+
+    @media (max-width: 767px) {
+        .hero-content.has-image {
+            grid-template-columns: minmax(0, 1fr);
+        }
+
+        .hero-text p {
+            font-size: var(--font-size-base);
+        }
+    }
+</style>
