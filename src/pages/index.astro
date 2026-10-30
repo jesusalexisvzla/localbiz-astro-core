@@ -1,15 +1,39 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
+
+import Button from '@components/common/Button.astro';
+import Container from '@components/common/Container.astro';
+import Section from '@components/common/Section.astro';
+
 import { homeContent } from '@data/home';
 ---
 
 <BaseLayout>
     <main>
-        <h1>{homeContent.hero.title}</h1>
-        <p>{homeContent.hero.description}</p>
+        <Section>
+            <Container>
+                <h1>{homeContent.hero.title}</h1>
 
-        <a href={homeContent.hero.primaryAction.href}>
-            {homeContent.hero.primaryAction.label}
-        </a>
+                <p>{homeContent.hero.description}</p>
+
+                <Button href={homeContent.hero.primaryAction.href}>
+                    {homeContent.hero.primaryAction.label}
+                </Button>
+            </Container>
+        </Section>
+        
+        <Section id="contact" ariaLabel="Contact information">
+            <Container>
+                <h2>Contact us</h2>
+
+                <p>
+                    Let's talk about your business.
+                </p>
+
+                <Button href="/" variant="secondary">
+                    Back to home
+                </Button>
+            </Container>
+        </Section>
     </main>
 </BaseLayout>

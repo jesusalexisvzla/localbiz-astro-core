@@ -1,0 +1,85 @@
+---
+interface Props {
+    href?: string;
+    variant?: 'primary' | 'secondary';
+    type?: 'button' | 'submit' | 'reset';
+    disabled?: boolean;
+    class?: string;
+}
+
+const {
+    href,
+    variant = 'primary',
+    type = 'button',
+    disabled = false,
+    class: className = ''
+} = Astro.props;
+---
+
+{
+    href && !disabled ? (
+        <a
+            href={href}
+            class:list={['button', variant, className]}
+        >
+            <slot />
+        </a>
+    ) : (
+        <button
+            type={type}
+            disabled={disabled}
+            class:list={['button', variant, className]}
+        >
+            <slot />
+        </button>
+    )
+}
+
+<style>
+    .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: var(--space-2);
+
+        padding: var(--space-3) var(--space-6);
+        border: 1px solid transparent;
+        border-radius: var(--radius-md);
+
+        font: inherit;
+        font-weight: var(--font-weight-semibold);
+        line-height: 1.2;
+        text-align: center;
+        text-decoration: none;
+
+        cursor: pointer;
+        transition:
+            background-color 0.2s ease,
+            border-color 0.2s ease,
+            color 0.2s ease;
+    }
+
+    .primary {
+        background-color: var(--color-primary);
+        color: #ffffff;
+    }
+
+    .primary:hover {
+        background-color: var(--color-primary-hover);
+    }
+
+    .secondary {
+        background-color: var(--color-surface);
+        color: var(--color-text);
+        border-color: var(--color-border);
+    }
+
+    .secondary:hover {
+        background-color: var(--color-border);
+    }
+
+    .button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+</style>
